@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Decision DNA — experimentally measured causal provenance for autonomous AI decisions." />
+  <meta name="description" content="Decision DNA — debug why autonomous AI agents changed behavior using provenance, counterfactual replay and Guardian analysis." />
   <meta name="theme-color" content="#07111f" />
-  <title>Decision DNA — Causal Provenance for AI Decisions</title>
+  <title>Decision DNA — Agent Debugging Infrastructure</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -22,47 +22,47 @@
       <span>DECISION <b>DNA</b></span>
     </a>
     <nav>
-      <a href="#lab">Lab</a>
-      <a href="#graph">Causal Graph</a>
+      <a href="#lab">Debugger</a>
+      <a href="#graph">Lineage</a>
       <a href="#protocol">Protocol</a>
-      <a class="nav-cta" href="#lab">Run Experiment</a>
+      <a class="nav-cta" href="#lab">Run Demo</a>
     </nav>
   </header>
 
   <main id="top">
     <section class="hero shell">
-      <div class="eyebrow"><span></span> EXPERIMENTAL AGENT INFRASTRUCTURE</div>
-      <h1>Don’t ask an AI<br><em>why</em> it decided.<br><strong>Test what caused it.</strong></h1>
+      <div class="eyebrow"><span></span> AGENT DEBUGGING INFRASTRUCTURE</div>
+      <h1>Debug <em>why</em> your AI agent<br><strong>changed behavior.</strong></h1>
       <p class="hero-copy">
-        Decision DNA replays autonomous-agent decisions under controlled counterfactuals,
-        measuring which memories and experiences actually changed the outcome.
+        Decision DNA records the experiences behind agent decisions, replays suspicious decisions under controlled interventions,
+        and measures which memories, sources and beliefs actually changed the outcome.
       </p>
       <div class="hero-actions">
-        <a class="button primary" href="#lab">Run the live experiment</a>
-        <a class="button secondary" href="#protocol">Read the protocol</a>
+        <a class="button primary" href="#lab">Try the debugger</a>
+        <a class="button secondary" href="#protocol">See how it works</a>
       </div>
       <div class="hero-proof">
-        <div><b>01</b><span>Make a decision</span></div>
+        <div><b>01</b><span>Instrument</span></div>
         <i></i>
-        <div><b>02</b><span>Remove an influence</span></div>
+        <div><b>02</b><span>Detect drift</span></div>
         <i></i>
         <div><b>03</b><span>Replay</span></div>
         <i></i>
-        <div><b>04</b><span>Measure causality</span></div>
+        <div><b>04</b><span>Repair</span></div>
       </div>
     </section>
 
     <section class="definition shell">
-      <p class="big-quote">“What the model <span>says</span> influenced it is not the same as what <strong>experimentally influenced it.</strong>”</p>
+      <p class="big-quote">“Logs tell you <span>what happened.</span> Decision DNA tests <strong>what shaped the behavior.</strong>”</p>
     </section>
 
     <section id="lab" class="lab-section shell">
       <div class="section-heading">
         <div>
-          <div class="eyebrow"><span></span> LIVE DEMONSTRATION</div>
+          <div class="eyebrow"><span></span> LIVE AGENT DEBUGGER</div>
           <h2>Counterfactual Decision Lab</h2>
         </div>
-        <p>Edit the agent’s memories and priorities, then run the experiment. Everything executes locally in your browser.</p>
+        <p>Edit the agent’s memories and priorities, then replay the decision with each influence removed. Everything executes locally in your browser.</p>
       </div>
 
       <div class="lab-grid">
@@ -118,7 +118,7 @@
 
           <div id="emptyState" class="empty-state">
             <div class="pulse-ring"><span></span></div>
-            <h3>Awaiting experiment</h3>
+            <h3>Awaiting replay</h3>
             <p>Run the agent once, then Decision DNA will replay the choice with each memory removed.</p>
           </div>
 
@@ -151,7 +151,7 @@
 
             <div class="result-title">
               <div>
-                <small>MEASURED CAUSAL INFLUENCE</small>
+                <small>MEASURED INFLUENCE</small>
                 <h4>What actually changed the decision?</h4>
               </div>
               <span class="method-chip">LEAVE-ONE-OUT</span>
@@ -170,10 +170,10 @@
     <section id="graph" class="graph-section shell">
       <div class="section-heading">
         <div>
-          <div class="eyebrow"><span></span> CAUSAL GENEALOGY</div>
-          <h2>Trace behavior back to experience.</h2>
+          <div class="eyebrow"><span></span> BEHAVIORAL LINEAGE</div>
+          <h2>Trace a bad decision back to experience.</h2>
         </div>
-        <p>The long-term system gives every observation, memory, belief, plan and decision a parent relationship.</p>
+        <p>Decision DNA links observations, memories, beliefs, plans and outcomes so Guardian can reason over an agent’s behavioral history without trusting the agent’s self-explanation.</p>
       </div>
 
       <div class="genealogy-card">
@@ -199,49 +199,47 @@
     <section id="protocol" class="protocol-section shell">
       <div class="protocol-grid">
         <div>
-          <div class="eyebrow"><span></span> DRAFT PROTOCOL 0.1</div>
-          <h2>A provenance layer for autonomous agents.</h2>
+          <div class="eyebrow"><span></span> DECISION DNA 0.2</div>
+          <h2>The debugging layer beneath Guardian.</h2>
           <p>
-            Decision DNA distinguishes <code>stated_reason</code> from <code>measured_influence</code>.
-            The first is an explanation. The second is an experiment.
+            Decision DNA separates <code>stated_reason</code> from <code>measured_influence</code>. Guardian sits above the records, detects behavioral drift, ranks suspicious influences, plans replays and proposes the smallest safe repair.
           </p>
           <div class="protocol-points">
-            <div><b>1</b><span>Capture decision context and influence nodes.</span></div>
-            <div><b>2</b><span>Apply controlled interventions to candidate influences.</span></div>
-            <div><b>3</b><span>Replay the decision under identical goals and observations.</span></div>
-            <div><b>4</b><span>Record action changes and decision-margin effects.</span></div>
-            <div><b>5</b><span>Link influences to their own parent sources over time.</span></div>
+            <div><b>1</b><span>Instrument consequential agent decisions.</span></div>
+            <div><b>2</b><span>Link memories and beliefs back to their sources.</span></div>
+            <div><b>3</b><span>Detect unusual changes in behavior over time.</span></div>
+            <div><b>4</b><span>Replay decisions with controlled interventions.</span></div>
+            <div><b>5</b><span>Test a repair before changing the live agent.</span></div>
           </div>
         </div>
         <div class="code-window">
-          <div class="code-head"><span></span><span></span><span></span><em>decision_dna.json</em></div>
+          <div class="code-head"><span></span><span></span><span></span><em>guardian_diagnosis.json</em></div>
           <pre><code>{
-  "decision_id": "D-0001",
-  "action": "Supplier B",
-  "influence": {
-    "memory": "M-144",
-    "origin": "shipping-api:event-881"
-  },
-  "counterfactual": {
-    "intervention": "remove M-144",
-    "action_changed": true
-  },
-  "causal_fingerprint": "A8F291C733BD"
+  "agent": "Procurement-3",
+  "symptom": "supplier preference drift",
+  "suspect": "M-144",
+  "origin": "shipping-api:event-881",
+  "measured_influence": "high",
+  "repair": {
+    "action": "downweight memory",
+    "requires_approval": true,
+    "verify_with_replay": true
+  }
 }</code></pre>
         </div>
       </div>
     </section>
 
     <section class="future shell">
-      <small>NEXT EXPERIMENT</small>
-      <h2>From deterministic proof<br>to stochastic AI.</h2>
+      <small>PRODUCT NORTH STAR</small>
+      <h2>Guardian: the debugger<br>for autonomous agents.</h2>
       <p>
-        Version 0.2 replaces the transparent scoring agent with a real LLM and runs each intervention repeatedly,
-        estimating how removing a memory changes the probability distribution over actions.
+        The next real milestone instruments a persistent agent, watches its behavior over time, detects drift,
+        traces a suspicious decision back through memory and source lineage, and tests a proposed repair in replay before touching production.
       </p>
       <div class="probability">
         <div>
-          <span>ORIGINAL CONTEXT</span>
+          <span>WITH SUSPECT MEMORY</span>
           <b>82%</b>
           <em>P(choose B)</em>
           <div class="prob-track"><i style="width:82%"></i></div>
@@ -265,8 +263,8 @@
       </span>
       <span>DECISION <b>DNA</b></span>
     </div>
-    <p>Experimental research prototype. No claim of patent novelty or freedom to operate is made.</p>
-    <span>PROTOCOL 0.1</span>
+    <p>Agent debugging research prototype. Counterfactual results are scoped to captured context and replay conditions.</p>
+    <span>PROTOCOL 0.2</span>
   </footer>
 
   <div id="toast" class="toast">Decision DNA JSON copied.</div>
