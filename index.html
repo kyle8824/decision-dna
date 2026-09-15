@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Decision DNA — experimentally measured causal provenance for autonomous AI decisions." />
+  <meta name="theme-color" content="#07111f" />
+  <title>Decision DNA — Causal Provenance for AI Decisions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="grid-bg"></div>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="Decision DNA home">
+      <span class="brand-mark" aria-hidden="true">
+        <span class="node n1"></span><span class="node n2"></span><span class="node n3"></span>
+        <span class="link l1"></span><span class="link l2"></span>
+      </span>
+      <span>DECISION <b>DNA</b></span>
+    </a>
+    <nav>
+      <a href="#lab">Lab</a>
+      <a href="#graph">Causal Graph</a>
+      <a href="#protocol">Protocol</a>
+      <a class="nav-cta" href="#lab">Run Experiment</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero shell">
+      <div class="eyebrow"><span></span> EXPERIMENTAL AGENT INFRASTRUCTURE</div>
+      <h1>Don’t ask an AI<br><em>why</em> it decided.<br><strong>Test what caused it.</strong></h1>
+      <p class="hero-copy">
+        Decision DNA replays autonomous-agent decisions under controlled counterfactuals,
+        measuring which memories and experiences actually changed the outcome.
+      </p>
+      <div class="hero-actions">
+        <a class="button primary" href="#lab">Run the live experiment</a>
+        <a class="button secondary" href="#protocol">Read the protocol</a>
+      </div>
+      <div class="hero-proof">
+        <div><b>01</b><span>Make a decision</span></div>
+        <i></i>
+        <div><b>02</b><span>Remove an influence</span></div>
+        <i></i>
+        <div><b>03</b><span>Replay</span></div>
+        <i></i>
+        <div><b>04</b><span>Measure causality</span></div>
+      </div>
+    </section>
+
+    <section class="definition shell">
+      <p class="big-quote">“What the model <span>says</span> influenced it is not the same as what <strong>experimentally influenced it.</strong>”</p>
+    </section>
+
+    <section id="lab" class="lab-section shell">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow"><span></span> LIVE DEMONSTRATION</div>
+          <h2>Counterfactual Decision Lab</h2>
+        </div>
+        <p>Edit the agent’s memories and priorities, then run the experiment. Everything executes locally in your browser.</p>
+      </div>
+
+      <div class="lab-grid">
+        <div class="panel input-panel">
+          <div class="panel-head">
+            <div>
+              <small>AGENT CONFIGURATION</small>
+              <h3>Procurement Agent</h3>
+            </div>
+            <span class="status"><i></i> READY</span>
+          </div>
+
+          <div class="field-block">
+            <label>Current goal</label>
+            <p>Choose the supplier that best balances reliability, quality and cost.</p>
+          </div>
+
+          <div class="weights">
+            <div class="weight-row">
+              <label for="reliabilityWeight"><span>Reliability</span><output id="reliabilityOutput">3.0×</output></label>
+              <input id="reliabilityWeight" type="range" min="0" max="5" step=".5" value="3">
+            </div>
+            <div class="weight-row">
+              <label for="qualityWeight"><span>Quality</span><output id="qualityOutput">2.0×</output></label>
+              <input id="qualityWeight" type="range" min="0" max="5" step=".5" value="2">
+            </div>
+            <div class="weight-row">
+              <label for="costWeight"><span>Cost</span><output id="costOutput">1.0×</output></label>
+              <input id="costWeight" type="range" min="0" max="5" step=".5" value="1">
+            </div>
+          </div>
+
+          <div class="subhead">
+            <span>Persistent memories</span>
+            <button id="resetButton" class="text-button">Reset</button>
+          </div>
+          <div id="memoryList" class="memory-list"></div>
+
+          <button id="runButton" class="run-button">
+            <span class="run-icon">▶</span>
+            RUN COUNTERFACTUAL EXPERIMENT
+          </button>
+        </div>
+
+        <div class="panel result-panel">
+          <div class="panel-head">
+            <div>
+              <small>DECISION DNA RECORD</small>
+              <h3 id="recordId">D-0001</h3>
+            </div>
+            <button id="copyButton" class="copy-btn">Copy JSON</button>
+          </div>
+
+          <div id="emptyState" class="empty-state">
+            <div class="pulse-ring"><span></span></div>
+            <h3>Awaiting experiment</h3>
+            <p>Run the agent once, then Decision DNA will replay the choice with each memory removed.</p>
+          </div>
+
+          <div id="results" class="results hidden">
+            <div class="decision-card">
+              <div>
+                <small>ORIGINAL DECISION</small>
+                <div id="decisionName" class="decision-name">Supplier B</div>
+              </div>
+              <div class="fingerprint">
+                <small>CAUSAL FINGERPRINT</small>
+                <code id="fingerprint">—</code>
+              </div>
+            </div>
+
+            <div class="scores-grid">
+              <div class="score-card">
+                <small>SUPPLIER A SCORE</small>
+                <strong id="scoreA">—</strong>
+              </div>
+              <div class="score-card">
+                <small>SUPPLIER B SCORE</small>
+                <strong id="scoreB">—</strong>
+              </div>
+              <div class="score-card">
+                <small>WINNER MARGIN</small>
+                <strong id="margin">—</strong>
+              </div>
+            </div>
+
+            <div class="result-title">
+              <div>
+                <small>MEASURED CAUSAL INFLUENCE</small>
+                <h4>What actually changed the decision?</h4>
+              </div>
+              <span class="method-chip">LEAVE-ONE-OUT</span>
+            </div>
+            <div id="influenceList" class="influence-list"></div>
+
+            <div class="replays">
+              <small>COUNTERFACTUAL REPLAYS</small>
+              <div id="replayList"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="graph" class="graph-section shell">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow"><span></span> CAUSAL GENEALOGY</div>
+          <h2>Trace behavior back to experience.</h2>
+        </div>
+        <p>The long-term system gives every observation, memory, belief, plan and decision a parent relationship.</p>
+      </div>
+
+      <div class="genealogy-card">
+        <div class="genealogy">
+          <div class="g-node source"><small>SOURCE</small><b>Shipping API</b><span>event-881</span></div>
+          <div class="arrow">→</div>
+          <div class="g-node"><small>OBSERVATION</small><b>A arrived 4 days late</b><span>2026-08-12</span></div>
+          <div class="arrow">→</div>
+          <div class="g-node hot"><small>MEMORY</small><b>M-144</b><span>confidence .98</span></div>
+          <div class="arrow">→</div>
+          <div class="g-node"><small>BELIEF</small><b>A has delivery risk</b><span>derived</span></div>
+          <div class="arrow">→</div>
+          <div class="g-node final"><small>DECISION</small><b>Supplier B</b><span>D-0001</span></div>
+        </div>
+        <div class="genealogy-footer">
+          <span><i class="dot verified"></i> Source-linked</span>
+          <span><i class="dot measured"></i> Counterfactually measured</span>
+          <span><i class="dot hashed"></i> Fingerprinted</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="protocol" class="protocol-section shell">
+      <div class="protocol-grid">
+        <div>
+          <div class="eyebrow"><span></span> DRAFT PROTOCOL 0.1</div>
+          <h2>A provenance layer for autonomous agents.</h2>
+          <p>
+            Decision DNA distinguishes <code>stated_reason</code> from <code>measured_influence</code>.
+            The first is an explanation. The second is an experiment.
+          </p>
+          <div class="protocol-points">
+            <div><b>1</b><span>Capture decision context and influence nodes.</span></div>
+            <div><b>2</b><span>Apply controlled interventions to candidate influences.</span></div>
+            <div><b>3</b><span>Replay the decision under identical goals and observations.</span></div>
+            <div><b>4</b><span>Record action changes and decision-margin effects.</span></div>
+            <div><b>5</b><span>Link influences to their own parent sources over time.</span></div>
+          </div>
+        </div>
+        <div class="code-window">
+          <div class="code-head"><span></span><span></span><span></span><em>decision_dna.json</em></div>
+          <pre><code>{
+  "decision_id": "D-0001",
+  "action": "Supplier B",
+  "influence": {
+    "memory": "M-144",
+    "origin": "shipping-api:event-881"
+  },
+  "counterfactual": {
+    "intervention": "remove M-144",
+    "action_changed": true
+  },
+  "causal_fingerprint": "A8F291C733BD"
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="future shell">
+      <small>NEXT EXPERIMENT</small>
+      <h2>From deterministic proof<br>to stochastic AI.</h2>
+      <p>
+        Version 0.2 replaces the transparent scoring agent with a real LLM and runs each intervention repeatedly,
+        estimating how removing a memory changes the probability distribution over actions.
+      </p>
+      <div class="probability">
+        <div>
+          <span>ORIGINAL CONTEXT</span>
+          <b>82%</b>
+          <em>P(choose B)</em>
+          <div class="prob-track"><i style="width:82%"></i></div>
+        </div>
+        <div class="delta">−53<span>pp</span></div>
+        <div>
+          <span>WITHOUT M-144</span>
+          <b>29%</b>
+          <em>P(choose B)</em>
+          <div class="prob-track"><i style="width:29%"></i></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="shell">
+    <div class="brand footer-brand">
+      <span class="brand-mark" aria-hidden="true">
+        <span class="node n1"></span><span class="node n2"></span><span class="node n3"></span>
+        <span class="link l1"></span><span class="link l2"></span>
+      </span>
+      <span>DECISION <b>DNA</b></span>
+    </div>
+    <p>Experimental research prototype. No claim of patent novelty or freedom to operate is made.</p>
+    <span>PROTOCOL 0.1</span>
+  </footer>
+
+  <div id="toast" class="toast">Decision DNA JSON copied.</div>
+  <script src="./app.js"></script>
+</body>
+</html>
