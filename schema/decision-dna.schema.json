@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://decisiondna.dev/schema/decision-dna.schema.json",
+  "title": "Decision DNA Record",
+  "description": "Portable provenance and counterfactual-debugging record for an autonomous-agent decision.",
+  "type": "object",
+  "required": ["version", "decision_id", "agent_id", "timestamp", "decision", "context", "influences"],
+  "properties": {
+    "version": { "type": "string", "const": "0.2" },
+    "decision_id": { "type": "string", "minLength": 1 },
+    "agent_id": { "type": "string", "minLength": 1 },
+    "run_id": { "type": ["string", "null"] },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "decision": {
+      "type": "object",
+      "required": ["action"],
+      "properties": {
+        "action": {},
+        "alternatives": { "type": "array", "items": {} },
+        "stated_reason": { "type": ["string", "null"] },
+        "confidence": { "type": ["number", "null"], "minimum": 0, "maximum": 1 }
+      },
+      "additionalProperties": true
+    },
+    "context": {
+      "type": "object",
+      "properties": {
+        "goal": {},
+        "observations": { "type": "array", "items": {} },
+        "retrieved_memory_ids": { "type": "array", "items": { "type": "string" } },
+        "tool_call_ids": { "type": "array", "items": { "type": "string" } },
+        "model": { "type": ["string", "null"] }
+      },
+      "additionalProperties": true
+    },
+    "influences": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "kind"],
+        "properties": {
+          "id": { "type": "string" },
+          "kind": { "type": "string", "enum": ["observation", "memory", "belief", "reflection", "plan", "tool_result", "policy", "other"] },
+          "source": { "type": ["string", "null"] },
+          "content": {},
+          "confidence": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+          "parent_ids": { "type": "array", "items": { "type": "string" } },
+          "created_at": { "type": ["string", "null"], "format": "date-time" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "counterfactuals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["intervention", "result"],
+        "properties": {
+          "intervention": {
+            "type": "object",
+            "required": ["type"],
+            "properties": {
+              "type": { "type": "string", "enum": ["remove", "replace", "downweight", "upweight", "mask", "custom"] },
+              "target_ids": { "type": "array", "items": { "type": "string" } },
+              "description": { "type": ["string", "null"] }
+            },
+            "additionalProperties": true
+          },
+          "result": {
+            "type": "object",
+            "properties": {
+              "action": {},
+              "action_changed": { "type": ["boolean", "null"] },
+              "probability_delta": { "type": ["number", "null"] },
+              "margin_delta": { "type": ["number", "null"] },
+              "trials": { "type": ["integer", "null"], "minimum": 1 }
+            },
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "outcome": {
+      "type": ["object", "null"],
+      "additionalProperties": true
+    },
+    "fingerprint": { "type": ["string", "null"] }
+  },
+  "additionalProperties": true
+}
